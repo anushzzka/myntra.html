@@ -1,115 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <title>Myntra - Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Myntra - Login or Signup</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #e6e6fa, #fbeaff);
+      font-family: 'Assistant', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #fceeea;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      flex-direction: column;
       height: 100vh;
     }
 
-    .login-container {
+    .navbar {
+      height: 80px;
       background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-      width: 320px;
-      text-align: center;
+      box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      padding: 0 4%;
     }
 
-    .login-container h2 {
-      color: #ff3f6c;
+    .navbar img {
+      height: 45px;
+    }
+
+    .main-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      background-color: white;
+      width: 400px;
+      margin: 0 auto;
+      min-height: calc(100vh - 80px);
+      /* Fill the screen minus navbar for mobile */
+    }
+
+    @media (min-width: 768px) {
+      .login-box {
+        min-height: auto;
+        box-shadow: 0 0px 4px 0 rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .banner-img {
+      width: 100%;
+      height: 160px;
+      background-color: #fef0ef;
+      /* Fallback color */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .banner-img img {
+      width: 100%;
+      height: auto;
+    }
+
+    .content-area {
+      padding: 30px 30px 40px 30px;
+    }
+
+    .heading {
+      font-size: 20px;
+      font-weight: 600;
+      color: #424553;
+      margin-bottom: 25px;
+    }
+
+    .heading span {
+      font-size: 16px;
+      font-weight: 400;
+      color: #535766;
+    }
+
+    .input-group {
+      position: relative;
       margin-bottom: 20px;
     }
 
-    .login-container input[type="text"],
-    .login-container input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    .login-container .show-pass {
-      display: flex;
-      align-items: center;
+    .input-prefix {
+      position: absolute;
+      left: 10px;
+      top: 13px;
+      color: #282c3f;
       font-size: 14px;
-      margin-bottom: 10px;
-      color: #333;
+      border-right: 1px solid #d4d5d9;
+      padding-right: 10px;
     }
 
-    .login-container button {
+    .mobile-input {
+      width: 100%;
+      padding: 12px 10px 12px 60px;
+      box-sizing: border-box;
+      border: 1px solid #d4d5d9;
+      border-radius: 0;
+      font-size: 14px;
+      color: #282c3f;
+      outline: none;
+      transition: border 0.3s;
+    }
+
+    .mobile-input:focus {
+      border: 1px solid #282c3f;
+    }
+
+    .terms {
+      font-size: 12px;
+      color: #282c3f;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .terms a {
+      color: #ff3f6c;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .btn-submit {
+      width: 100%;
       background-color: #ff3f6c;
       color: white;
       border: none;
-      padding: 10px 20px;
-      width: 100%;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .login-container button:hover {
-      background-color: #e63358;
-    }
-
-    .login-container a {
-      display: block;
-      margin-top: 15px;
-      text-decoration: none;
+      padding: 12px;
       font-size: 14px;
-      color: #666;
+      font-weight: 600;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background-color 0.3s;
     }
 
-    .login-container a:hover {
-      text-decoration: underline;
+    .btn-submit:hover {
+      background-color: #e3365c;
+    }
+
+    .have-trouble {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #282c3f;
+    }
+
+    .have-trouble a {
+      color: #ff3f6c;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .error-msg {
+      color: #ff3f6c;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
     }
   </style>
 </head>
+
 <body>
 
-  <div class="login-container">
-    <h2>Welcome to Myntra</h2>
-    <form onsubmit="return validateLogin()">
-      <input type="text" id="username" placeholder="Username" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <div class="show-pass">
-        <input type="checkbox" onclick="togglePassword()" id="show"> &nbsp;<label for="show">Show Password</label>
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="index.html">
+      <img src="logo.jpeg" alt="Myntra Logo"
+        onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'45\' height=\'45\'><rect width=\'45\' height=\'45\' fill=\'#ccc\'/><text x=\'5\' y=\'25\' fill=\'white\' font-size=\'10\'>Logo</text></svg>'">
+    </a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-container">
+    <div class="login-box">
+      <!-- Promotional Banner Image -->
+      <div class="banner-img">
+        <img src="banner.jpeg" alt="Login Banner"
+          onerror="this.style.display='none'; this.parentElement.style.backgroundColor='#ffe6ea'; this.parentElement.innerHTML='<h2 style=\'color:#ff3f6c\'>Big Fashion Festival</h2>'">
       </div>
-      <button type="submit">Login</button>
-      <a href="index.html">← Back to Homepage</a>
-    </form>
+
+      <div class="content-area">
+        <div class="heading">Login <span>or</span> Signup</div>
+
+        <form id="loginForm" onsubmit="return handleLogin(event)">
+          <div class="input-group">
+            <span class="input-prefix">+91</span>
+            <input type="tel" id="mobileNumber" class="mobile-input" placeholder="Mobile Number" maxlength="10"
+              autocomplete="off" />
+            <div id="errorMsg" class="error-msg">Please enter a valid 10-digit mobile number</div>
+          </div>
+
+          <div class="terms">
+            By continuing, I agree to the <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a>
+          </div>
+
+          <button type="submit" class="btn-submit">Continue</button>
+        </form>
+
+        <div class="have-trouble">
+          Have trouble logging in? <a href="#">Get help</a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
-    function togglePassword() {
-      const pass = document.getElementById("password");
-      pass.type = pass.type === "password" ? "text" : "password";
-    }
+    function handleLogin(event) {
+      event.preventDefault();
 
-    function validateLogin() {
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
+      const mobileInput = document.getElementById('mobileNumber');
+      const errorMsg = document.getElementById('errorMsg');
+      const mobileVal = mobileInput.value.trim();
 
-      if (username === "admin" && password === "1234") {
-        alert("Login successful!");
+      // Simple validation for 10 digits
+      const mobileRegex = /^[0-9]{10}$/;
+
+      if (mobileRegex.test(mobileVal)) {
+        // Validation passed
+        errorMsg.style.display = 'none';
+        mobileInput.style.border = '1px solid #d4d5d9';
+
+        // Simulating sending an OTP
+        alert("OTP sent to +91 " + mobileVal);
+
+        // In a real app, you would redirect to an OTP verification page here
         window.location.href = "index.html";
-        return false; // prevent form submission
       } else {
-        alert("Invalid credentials!");
-        return false;
+        // Validation failed
+        errorMsg.style.display = 'block';
+        mobileInput.style.border = '1px solid #ff3f6c';
       }
     }
   </script>
-
 </body>
+
 </html>
